@@ -10,12 +10,26 @@ function NavBar() {
       <ul>
         <li>
           <h2>
-            <NavLink to="/">Currency Converter</NavLink>
+            <NavLink
+              to="cash-converter"
+              style={({ isActive }) => ({
+                textDecoration: isActive ? "underline" : "none",
+              })}
+            >
+              Converter
+            </NavLink>
           </h2>
         </li>
         <li>
           <h2>
-            <NavLink to="ratesexchange">Rates Exchange</NavLink>
+            <NavLink
+              to="ratesexchange"
+              style={({ isActive }) => ({
+                textDecoration: isActive ? "underline" : "none",
+              })}
+            >
+              Rates
+            </NavLink>
           </h2>
         </li>
       </ul>

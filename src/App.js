@@ -14,7 +14,7 @@ function App() {
         </header>
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<CurrencyConverter />} />
+            <Route path="cash-converter" element={<CurrencyConverter />} />
             <Route path="ratesexchange" element={<RatesExchange />} />
           </Routes>
         </main>

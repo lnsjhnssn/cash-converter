@@ -7,8 +7,8 @@ class App extends Component {
     super(props);
     this.state = {
       amount: 1,
-      fromCurrency: "EUR",
-      toCurrency: "USD",
+      fromCurrency: "CHF",
+      toCurrency: "EUR",
       result: null,
       currencies: [
         "USD",
