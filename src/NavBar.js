@@ -11,7 +11,7 @@ function NavBar() {
         <li>
           <h2>
             <NavLink
-              to="cash-converter"
+              to="/"
               style={({ isActive }) => ({
                 textDecoration: isActive ? "underline" : "none",
               })}
