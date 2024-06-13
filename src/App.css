@@ -1,38 +1,104 @@
-.App {
-  text-align: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Container  */
+
+.app-container {
+  @apply min-h-screen grid grid-cols-1 gap-4;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Navbar */
+
+header {
+  @apply w-full;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+nav {
+  @apply mx-auto pb-8 pt-4 md:pt-8 px-8 lg:px-32 font-bold max-w-7xl flex justify-between;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+nav ul {
+  @apply uppercase text-gray-900 text-sm text-end md:text-base grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 p-4 md:p-8;
 }
 
-.App-link {
-  color: #61dafb;
+/* Main Content */
+
+.main-content {
+  @apply w-full max-w-2xl mx-auto px-6 lg:px-8 flex-col md:px-16;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+select,
+input {
+  @apply bg-white border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full md:w-36 p-3 mb-8 mt-4 cursor-pointer;
+}
+
+form label {
+  @apply block mb-4;
+}
+
+/* Currency Converter */
+
+.container-currency-converter form {
+  @apply mx-auto flex flex-col justify-between md:flex-row;
+}
+
+.div-amount {
+  @apply mb-16;
+}
+
+.label-title {
+  @apply font-bold text-xl text-gray-900;
+}
+
+.div-swap {
+  @apply flex justify-center;
+}
+
+.swap-icon {
+  @apply cursor-pointer;
+}
+
+.div-result {
+  @apply text-3xl font-bold mt-16 text-right text-gray-900;
+}
+
+/* Rates Exchange */
+
+.container-rates-exchange {
+  @apply w-full md:grid grid-cols-2;
+}
+
+.list-header {
+  @apply mt-16 md:mt-0 mb-4 flex gap-2 px-4 md:px-8;
+}
+
+.list-currencies {
+  @apply list-none text-xl bg-white pt-6 pb-2 px-4 md:px-8 rounded-lg;
+}
+
+.list-header :first-child {
+  @apply flex-1;
+}
+
+.list-currencies li {
+  @apply mb-4 flex;
+}
+
+.list-currencies li :first-child {
+  @apply flex-1;
+}
+
+/* Footer */
+
+footer {
+  @apply mt-auto pt-8 pb-2;
+}
+
+.footer-text {
+  @apply text-center pb-2;
+}
+
+footer ul {
+  @apply flex justify-center gap-4 md:gap-10 pb-2;
 }

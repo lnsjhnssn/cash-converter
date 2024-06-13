@@ -1,0 +1,56 @@
+/*
+fetch('https://api.example.com/data')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Handle successful response
+    console.log('Data:', data);
+  })
+  .catch(error => {
+    // Handle error
+    console.error('Error:', error);
+  });
+
+  SelectBox 
+
+  import React from 'react';
+import SelectBox from './SelectBox'; // Import the SelectBox component
+
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedValue: 'default', // Set the default selected value
+    };
+  }
+
+  handleSelectChange = (e) => {
+    this.setState({ selectedValue: e.target.value });
+  };
+
+  render() {
+    const values = ['Option 1', 'Option 2', 'Option 3']; // Array of values for the select box
+
+    return (
+      <div>
+        <h2>Select an Option:</h2>
+        <SelectBox
+          values={values}
+          selectedValue={this.state.selectedValue}
+          onChange={this.handleSelectChange}
+        />
+      </div>
+    );
+  }
+}
+
+export default MyComponent;
+
+ if (fromCurrency === toCurrency) {
+      this.setState({ result: amount });
+      return;
+    }
