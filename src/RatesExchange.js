@@ -5,7 +5,7 @@ class RatesExchange extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      baseCurrency: "CHF",
+      baseCurrency: "USD",
       rates: {},
       currencies: [
         "USD",

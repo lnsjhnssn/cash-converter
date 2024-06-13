@@ -7,8 +7,8 @@ class CurrencyConverter extends Component {
     super(props);
     this.state = {
       amount: 1,
-      fromCurrency: "CHF",
-      toCurrency: "EUR",
+      fromCurrency: "USD",
+      toCurrency: "CHF",
       result: null,
       currencies: [
         "USD",
