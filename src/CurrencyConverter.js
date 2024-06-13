@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import swapIcon from "./assets/images/swap.svg";
 import "./App.css";
 
-class App extends Component {
+class CurrencyConverter extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -151,4 +151,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default CurrencyConverter;

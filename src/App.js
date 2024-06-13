@@ -3,6 +3,7 @@ import NavBar from "./NavBar";
 import Footer from "./Footer";
 import CurrencyConverter from "./CurrencyConverter";
 import RatesExchange from "./RatesExchange";
+
 import "./App.css";
 
 function App() {
