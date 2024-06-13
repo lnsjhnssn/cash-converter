@@ -15,7 +15,7 @@ class RatesExchange extends Component {
         "AUD",
         "CAD",
         "CHF",
-        "CNH",
+        "SEK",
         "HKD",
         "NZD",
       ],
