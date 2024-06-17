@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import swapIcon from "./assets/images/swap.svg";
+import currencies from "./utils/currencies";
 import "./App.css";
 
 class CurrencyConverter extends Component {
@@ -10,18 +11,6 @@ class CurrencyConverter extends Component {
       fromCurrency: "USD",
       toCurrency: "CHF",
       result: null,
-      currencies: [
-        "USD",
-        "EUR",
-        "JPY",
-        "GBP",
-        "AUD",
-        "CAD",
-        "CHF",
-        "SEK",
-        "HKD",
-        "NZD",
-      ],
     };
 
     this.handleAmountChange = this.handleAmountChange.bind(this);
@@ -81,7 +70,7 @@ class CurrencyConverter extends Component {
   }
 
   render() {
-    const { amount, fromCurrency, toCurrency, result, currencies } = this.state;
+    const { amount, fromCurrency, toCurrency, result } = this.state;
 
     return (
       <div className="container-currency-converter">

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
+import currencies from "./utils/currencies";
 
 class RatesExchange extends Component {
   constructor(props) {
@@ -7,18 +8,7 @@ class RatesExchange extends Component {
     this.state = {
       baseCurrency: "USD",
       rates: {},
-      currencies: [
-        "USD",
-        "EUR",
-        "JPY",
-        "GBP",
-        "AUD",
-        "CAD",
-        "CHF",
-        "SEK",
-        "HKD",
-        "NZD",
-      ],
+      currencies: currencies || [],
     };
 
     this.handleBaseCurrencyChange = this.handleBaseCurrencyChange.bind(this);
@@ -51,7 +41,7 @@ class RatesExchange extends Component {
   }
 
   render() {
-    const { baseCurrency, rates, currencies } = this.state;
+    const { baseCurrency, rates } = this.state;
 
     return (
       <div className="container">
