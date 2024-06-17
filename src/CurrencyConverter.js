@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import Chart from "chart.js";
 import swapIcon from "./assets/images/swap.svg";
+import currencies from "./utils/currencies";
 import "./App.css";
 
 class CurrencyConverter extends Component {
@@ -10,20 +12,11 @@ class CurrencyConverter extends Component {
       fromCurrency: "USD",
       toCurrency: "CHF",
       result: null,
-      currencies: [
-        "USD",
-        "EUR",
-        "JPY",
-        "GBP",
-        "AUD",
-        "CAD",
-        "CHF",
-        "SEK",
-        "HKD",
-        "NZD",
-      ],
+      loading: false,
+      error: null,
     };
-
+    this.chartRef = React.createRef();
+    this.chart = null;
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleFromCurrencyChange = this.handleFromCurrencyChange.bind(this);
     this.handleToCurrencyChange = this.handleToCurrencyChange.bind(this);
@@ -33,12 +26,28 @@ class CurrencyConverter extends Component {
 
   componentDidMount() {
     this.fetchConversionRate();
+    this.getHistoricalRates(this.state.fromCurrency, this.state.toCurrency);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.fromCurrency !== this.state.fromCurrency ||
+      prevState.toCurrency !== this.state.toCurrency
+    ) {
+      this.fetchConversionRate();
+      this.getHistoricalRates(this.state.fromCurrency, this.state.toCurrency);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
   }
 
   fetchConversionRate() {
     const { amount, fromCurrency, toCurrency } = this.state;
 
-    // if formCurrency and toCurrency are the same, return amount as result
     if (fromCurrency === toCurrency) {
       this.setState({ result: amount });
       return;
@@ -49,25 +58,102 @@ class CurrencyConverter extends Component {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
+        if (data.error) {
+          throw new Error(data.error);
+        }
         const result = data.rates[toCurrency];
-        this.setState({ result });
+        this.setState({ result, error: null });
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        console.error("Error fetching conversion rate:", error);
+        this.setState({
+          error: "Error fetching conversion rate",
+          result: null,
+        });
+      });
+  }
+
+  getHistoricalRates(base, quote) {
+    const endDate = new Date().toISOString().split("T")[0];
+    const startDate = new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split("T")[0];
+
+    this.setState({ loading: true });
+
+    fetch(
+      `https://api.frankfurter.app/${startDate}..${endDate}?from=${base}&to=${quote}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          throw new Error(data.error);
+        }
+
+        const chartLabels = Object.keys(data.rates);
+        const chartData = Object.values(data.rates).map((rate) => rate[quote]);
+        const chartLabel = `${base}/${quote}`;
+
+        this.buildChart(chartLabels, chartData, chartLabel);
+        this.setState({ loading: false, error: null });
+      })
+      .catch((error) => {
+        console.error("Error fetching historical rates:", error);
+        this.setState({
+          loading: false,
+          error: "Error fetching historical rates",
+        });
+      });
+  }
+
+  buildChart(labels, data, label) {
+    const chartRef = this.chartRef.current.getContext("2d");
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.chart = new Chart(chartRef, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: label,
+            data,
+            fill: false,
+            borderColor: "#083A84",
+            tension: 0.1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+      },
+    });
   }
 
   handleAmountChange(event) {
-    this.setState({ amount: event.target.value }, this.fetchConversionRate);
+    const amount = event.target.value;
+    this.setState({ amount }, () => {
+      this.fetchConversionRate();
+    });
   }
 
   handleFromCurrencyChange(event) {
-    this.setState(
-      { fromCurrency: event.target.value },
-      this.fetchConversionRate
-    );
+    const fromCurrency = event.target.value;
+    this.setState({ fromCurrency }, () => {
+      this.fetchConversionRate();
+      this.getHistoricalRates(this.state.fromCurrency, this.state.toCurrency);
+    });
   }
 
   handleToCurrencyChange(event) {
-    this.setState({ toCurrency: event.target.value }, this.fetchConversionRate);
+    const toCurrency = event.target.value;
+    this.setState({ toCurrency }, () => {
+      this.fetchConversionRate();
+      this.getHistoricalRates(this.state.fromCurrency, this.state.toCurrency);
+    });
   }
 
   handleSwapCurrencies() {
@@ -76,12 +162,16 @@ class CurrencyConverter extends Component {
         fromCurrency: prevState.toCurrency,
         toCurrency: prevState.fromCurrency,
       }),
-      this.fetchConversionRate
+      () => {
+        this.fetchConversionRate();
+        this.getHistoricalRates(this.state.fromCurrency, this.state.toCurrency);
+      }
     );
   }
 
   render() {
-    const { amount, fromCurrency, toCurrency, result, currencies } = this.state;
+    const { amount, fromCurrency, toCurrency, result, loading, error } =
+      this.state;
 
     return (
       <div className="container-currency-converter">
@@ -145,6 +235,14 @@ class CurrencyConverter extends Component {
               {amount} {fromCurrency} = {result} {toCurrency}
             </p>
           )}
+        </div>
+        <div className="historical-chart-container">
+          <h3 className="label-title">Exchange rates for the last 30 days</h3>
+          <div className="historical-chart-table">
+            {loading ? <p>Loading...</p> : null}
+            {error ? <p>{error}</p> : null}
+            <canvas ref={this.chartRef} />
+          </div>
         </div>
       </div>
     );

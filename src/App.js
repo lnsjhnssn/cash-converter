@@ -17,6 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<CurrencyConverter />} />
             <Route path="/ratesexchange" element={<RatesExchange />} />
+
             <Route path="*" element={<CurrencyConverter />} />
           </Routes>
         </main>
