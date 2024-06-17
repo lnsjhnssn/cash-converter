@@ -13,8 +13,10 @@ class CurrencyConverter extends Component {
       toCurrency: "CHF",
       result: null,
       loading: false,
+      error: null,
     };
     this.chartRef = React.createRef();
+    this.chart = null;
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleFromCurrencyChange = this.handleFromCurrencyChange.bind(this);
     this.handleToCurrencyChange = this.handleToCurrencyChange.bind(this);
@@ -37,6 +39,12 @@ class CurrencyConverter extends Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+  }
+
   fetchConversionRate() {
     const { amount, fromCurrency, toCurrency } = this.state;
 
@@ -50,10 +58,19 @@ class CurrencyConverter extends Component {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
+        if (data.error) {
+          throw new Error(data.error);
+        }
         const result = data.rates[toCurrency];
-        this.setState({ result });
+        this.setState({ result, error: null });
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        console.error("Error fetching conversion rate:", error);
+        this.setState({
+          error: "Error fetching conversion rate",
+          result: null,
+        });
+      });
   }
 
   getHistoricalRates(base, quote) {
@@ -76,19 +93,23 @@ class CurrencyConverter extends Component {
         const chartLabels = Object.keys(data.rates);
         const chartData = Object.values(data.rates).map((rate) => rate[quote]);
         const chartLabel = `${base}/${quote}`;
+
         this.buildChart(chartLabels, chartData, chartLabel);
-        this.setState({ loading: false });
+        this.setState({ loading: false, error: null });
       })
       .catch((error) => {
-        console.error(error.message);
-        this.setState({ loading: false });
+        console.error("Error fetching historical rates:", error);
+        this.setState({
+          loading: false,
+          error: "Error fetching historical rates",
+        });
       });
   }
 
   buildChart(labels, data, label) {
     const chartRef = this.chartRef.current.getContext("2d");
 
-    if (typeof this.chart !== "undefined") {
+    if (this.chart) {
       this.chart.destroy();
     }
 
@@ -101,7 +122,8 @@ class CurrencyConverter extends Component {
             label: label,
             data,
             fill: false,
-            tension: 0,
+            borderColor: "#083A84",
+            tension: 0.1,
           },
         ],
       },
@@ -112,18 +134,23 @@ class CurrencyConverter extends Component {
   }
 
   handleAmountChange(event) {
-    this.setState({ amount: event.target.value }, this.fetchConversionRate);
+    const amount = event.target.value;
+    this.setState({ amount }, () => {
+      this.fetchConversionRate();
+    });
   }
 
   handleFromCurrencyChange(event) {
-    this.setState({ fromCurrency: event.target.value }, () => {
+    const fromCurrency = event.target.value;
+    this.setState({ fromCurrency }, () => {
       this.fetchConversionRate();
       this.getHistoricalRates(this.state.fromCurrency, this.state.toCurrency);
     });
   }
 
   handleToCurrencyChange(event) {
-    this.setState({ toCurrency: event.target.value }, () => {
+    const toCurrency = event.target.value;
+    this.setState({ toCurrency }, () => {
       this.fetchConversionRate();
       this.getHistoricalRates(this.state.fromCurrency, this.state.toCurrency);
     });
@@ -143,7 +170,8 @@ class CurrencyConverter extends Component {
   }
 
   render() {
-    const { amount, fromCurrency, toCurrency, result, loading } = this.state;
+    const { amount, fromCurrency, toCurrency, result, loading, error } =
+      this.state;
 
     return (
       <div className="container-currency-converter">
@@ -208,8 +236,13 @@ class CurrencyConverter extends Component {
             </p>
           )}
         </div>
-        <div className="historical-rates-chart">
-          {loading ? <p>Loading...</p> : <canvas ref={this.chartRef} />}
+        <div className="historical-chart-container">
+          <h3 className="label-title">Exchange rates for the last 30 days</h3>
+          <div className="historical-chart-table">
+            {loading ? <p>Loading...</p> : null}
+            {error ? <p>{error}</p> : null}
+            <canvas ref={this.chartRef} />
+          </div>
         </div>
       </div>
     );

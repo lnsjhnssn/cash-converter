@@ -89,6 +89,16 @@ form label {
   @apply flex-1;
 }
 
+/* Historical Rates Chart */
+
+.historical-chart-container {
+  @apply pt-16;
+}
+
+.historical-chart-table {
+  @apply w-full bg-white p-4 mt-4 rounded-lg;
+}
+
 /* Footer */
 
 footer {

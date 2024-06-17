@@ -75,7 +75,7 @@ class RatesExchange extends Component {
                 {Object.keys(rates).map((currency) => (
                   <li key={currency}>
                     <span>{currency}</span>
-                    <span>{rates[currency]}</span>
+                    <span>{rates[currency].toFixed(6)}</span>
                   </li>
                 ))}
               </ul>
