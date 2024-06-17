@@ -32,6 +32,18 @@ function NavBar() {
             </NavLink>
           </h2>
         </li>
+        <li>
+          <h2>
+            <NavLink
+              to="historicalrateschart"
+              style={({ isActive }) => ({
+                textDecoration: isActive ? "underline" : "none",
+              })}
+            >
+              Historical Rates Chart
+            </NavLink>
+          </h2>
+        </li>
       </ul>
     </nav>
   );

@@ -2,6 +2,7 @@ import { HashRouter as Router, Routes, Route, NavLink } from "react-router-dom";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 import CurrencyConverter from "./CurrencyConverter";
+import HistoricalRatesChart from "./HistoricalRatesChart";
 import RatesExchange from "./RatesExchange";
 
 import "./App.css";
@@ -17,6 +18,10 @@ function App() {
           <Routes>
             <Route path="/" element={<CurrencyConverter />} />
             <Route path="/ratesexchange" element={<RatesExchange />} />
+            <Route
+              path="/historicalrateschart"
+              element={<HistoricalRatesChart />}
+            />
             <Route path="*" element={<CurrencyConverter />} />
           </Routes>
         </main>
