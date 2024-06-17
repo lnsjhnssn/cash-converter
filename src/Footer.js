@@ -2,6 +2,13 @@ function Footer() {
   return (
     <footer>
       <div className="footer-text">
+        <p>
+          Source:{" "}
+          <a href="https://www.frankfurter.app" target="_blank">
+            <strong>Frankfurter API</strong>
+          </a>
+        </p>
+        <br />
         <p>Made by Linus Johansson 2024</p>
       </div>
       <ul>
@@ -18,11 +25,11 @@ function Footer() {
             LinkedIn
           </a>
         </li>
-
         <li>
           <a href="mailto:linus.johansson.riihimaki@gmail.com">E-mail</a>
         </li>
       </ul>
+      <br />
     </footer>
   );
 }

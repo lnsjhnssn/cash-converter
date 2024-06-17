@@ -43,7 +43,7 @@ form label {
   @apply mx-auto flex flex-col justify-between md:flex-row;
 }
 
-.div-amount {
+.div-left {
   @apply mb-8;
 }
 
@@ -61,6 +61,14 @@ form label {
 
 .div-result {
   @apply text-3xl font-bold mt-16 text-left text-gray-900;
+}
+
+.result-large-screen {
+  @apply mt-28 hidden md:block;
+}
+
+.result-mobile-screen {
+  @apply md:hidden;
 }
 
 /* Rates Exchange */
@@ -92,11 +100,11 @@ form label {
 /* Historical Rates Chart */
 
 .historical-chart-container {
-  @apply pt-16;
+  @apply pt-16 pb-12;
 }
 
 .historical-chart-table {
-  @apply w-full bg-white p-4 mt-4 rounded-lg;
+  @apply w-full bg-white px-4 pt-2 pb-4 mt-4 rounded-lg;
 }
 
 /* Footer */
@@ -106,7 +114,7 @@ footer {
 }
 
 .footer-text {
-  @apply text-center pb-2;
+  @apply text-center;
 }
 
 footer ul {

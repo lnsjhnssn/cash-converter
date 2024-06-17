@@ -120,6 +120,7 @@ class CurrencyConverter extends Component {
         datasets: [
           {
             label: label,
+
             data,
             fill: false,
             borderColor: "#083A84",
@@ -129,6 +130,10 @@ class CurrencyConverter extends Component {
       },
       options: {
         responsive: true,
+        title: {
+          display: true,
+          text: "Exchange rates for the last 30 days",
+        },
       },
     });
   }
@@ -176,7 +181,7 @@ class CurrencyConverter extends Component {
     return (
       <div className="container-currency-converter">
         <form>
-          <div className="div-amount">
+          <div className="div-left">
             <label>
               <h3 className="label-title">Amount</h3>
               <input
@@ -186,7 +191,15 @@ class CurrencyConverter extends Component {
                 onChange={this.handleAmountChange}
               />
             </label>
+            <div className="div-result result-large-screen">
+              {result && (
+                <p>
+                  {amount} {fromCurrency} = {result} {toCurrency}
+                </p>
+              )}
+            </div>
           </div>
+
           <div>
             <div>
               <label>
@@ -229,7 +242,7 @@ class CurrencyConverter extends Component {
             </div>
           </div>
         </form>
-        <div className="div-result">
+        <div className="div-result result-mobile-screen">
           {result && (
             <p>
               {amount} {fromCurrency} = {result} {toCurrency}
@@ -237,7 +250,6 @@ class CurrencyConverter extends Component {
           )}
         </div>
         <div className="historical-chart-container">
-          <h3 className="label-title">Exchange rates for the last 30 days</h3>
           <div className="historical-chart-table">
             {loading ? <p>Loading...</p> : null}
             {error ? <p>{error}</p> : null}
