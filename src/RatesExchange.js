@@ -19,6 +19,7 @@ class RatesExchange extends Component {
     this.fetchExchangeRates();
   }
 
+  //fetch exchange rates
   fetchExchangeRates() {
     const { baseCurrency, currencies } = this.state;
     const url = `https://api.frankfurter.app/latest?amount=1&from=${baseCurrency}&to=${currencies.join(

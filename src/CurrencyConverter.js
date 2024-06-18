@@ -45,6 +45,7 @@ class CurrencyConverter extends Component {
     }
   }
 
+  //fetch conversion rate
   fetchConversionRate() {
     const { amount, fromCurrency, toCurrency } = this.state;
 
@@ -73,6 +74,7 @@ class CurrencyConverter extends Component {
       });
   }
 
+  //fetch data for historical rates
   getHistoricalRates(base, quote) {
     const endDate = new Date().toISOString().split("T")[0];
     const startDate = new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000)
@@ -106,6 +108,7 @@ class CurrencyConverter extends Component {
       });
   }
 
+  //chart.js-table
   buildChart(labels, data, label) {
     const chartRef = this.chartRef.current.getContext("2d");
 
@@ -130,6 +133,7 @@ class CurrencyConverter extends Component {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         title: {
           display: true,
           text: "Exchange rates for the last 30 days",

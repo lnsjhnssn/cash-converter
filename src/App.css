@@ -71,6 +71,16 @@ form label {
   @apply md:hidden;
 }
 
+/* Historical Rates Chart */
+
+.historical-chart-container {
+  @apply pt-16 pb-12;
+}
+
+.historical-chart-table {
+  @apply w-full bg-white px-4 pt-2 pb-4 mt-4 rounded-lg min-h-80;
+}
+
 /* Rates Exchange */
 
 .container-rates-exchange {
@@ -95,16 +105,6 @@ form label {
 
 .list-currencies li :first-child {
   @apply flex-1;
-}
-
-/* Historical Rates Chart */
-
-.historical-chart-container {
-  @apply pt-16 pb-12;
-}
-
-.historical-chart-table {
-  @apply w-full bg-white px-4 pt-2 pb-4 mt-4 rounded-lg;
 }
 
 /* Footer */
